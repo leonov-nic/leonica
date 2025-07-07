@@ -1,0 +1,46 @@
+services:
+  backcat.postgres:
+    image: postgres:14-alpine
+    restart: always
+    env_file:
+      - ./src/.env
+    container_name: backcat.postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - 5432:5432
+    volumes:
+      - backcat.postgres:/var/lib/postgresql/data
+
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d {POSTGRES_PASSWORD} || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+    networks:
+      - backcat.cats
+
+  backcat.pgadmin:
+    image: dpage/pgadmin4
+    container_name: backcat.pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - 8084:80
+    depends_on:
+      - backcat.postgres
+    networks:
+      - backcat.cats
+
+volumes:
+  backcat.postgres:
+
+networks:
+  backcat.cats:
+      driver: bridge
