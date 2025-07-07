@@ -12,7 +12,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({transform: true}));
   const configService = app.get(NestConfigService);
   const port = configService.get(CONFIG_SERVICE);
-  await app.listen(port ?? 3000);
+
+  await app.listen(port ?? 3000, 'localhost');
   Logger.log(`🚀 Application is running on: http://localhost:${port}/${GLOBAL_PREFIX}`);
 }
 bootstrap();

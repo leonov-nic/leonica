@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 
 import { CatRepository } from './cat.repository';
 import { CatController } from './cat.controller';
-import { PrismaClientModule } from '../../../prisma/prisma-client-module/prisma-client.module';
+import { PrismaClientModule } from '../../assets/prisma/prisma-client-module/prisma-client.module';
 
 @Module({
   imports: [PrismaClientModule],

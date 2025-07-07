@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { PrismaClientService } from '../../../prisma/prisma-client-module/prisma-client.service';
+import { PrismaClientService } from '../../assets/prisma/prisma-client-module/prisma-client.service';
 
 import { CatEntity } from './cat.entity';
 import { Cat } from '../../types';
