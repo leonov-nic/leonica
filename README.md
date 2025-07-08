@@ -103,4 +103,5 @@ docker compose --file ./docker-compose.dev.postg.yml --env-file ./src/.env  up -
 
 ## Migration
 npx prisma migrate reset
+npx prisma generate  --schema ./prisma/schema.prisma
 npx prisma migrate dev --name "change (date fild) model for Cats" --schema ./prisma/schema.prisma
