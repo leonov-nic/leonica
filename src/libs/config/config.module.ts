@@ -7,7 +7,7 @@ import jwtConfig from './jwt.config';
 import notifyConfig from './notify.config';
 // import rabbitConfig from '../rabbit/rabbit.config';
 
-const ENV_USER_FILE_PATH = 'src/.env';
+const ENV_USER_FILE_PATH = '../../.env';
 
 @Module({
   imports: [

@@ -2942,7 +2942,7 @@ const app_config_1 = __importDefault(__webpack_require__(43));
 const mongo_config_1 = __importDefault(__webpack_require__(44));
 const jwt_config_1 = __importDefault(__webpack_require__(42));
 const notify_config_1 = __importDefault(__webpack_require__(35));
-const ENV_USER_FILE_PATH = 'src/.env';
+const ENV_USER_FILE_PATH = '../../.env';
 let ConfigAppModule = class ConfigAppModule {
 };
 exports.ConfigAppModule = ConfigAppModule;
