@@ -5,6 +5,7 @@ import { ConfigService as NestConfigService } from '@nestjs/config';
 
 export const GLOBAL_PREFIX = 'api';
 export const CONFIG_SERVICE: string = 'app.port';
+export const CONFIG_HOST: string = 'app.host';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,8 +13,9 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({transform: true}));
   const configService = app.get(NestConfigService);
   const port = configService.get(CONFIG_SERVICE);
+  const host = configService.get(CONFIG_HOST);
 
-  await app.listen(port ?? 3000, 'localhost');
-  Logger.log(`🚀 Application is running on: http://localhost:${port}/${GLOBAL_PREFIX}`);
+  await app.listen(port ?? 3000, host);
+  Logger.log(`🚀 Application is running on: http://${host}:${port}/${GLOBAL_PREFIX}`);
 }
 bootstrap();
