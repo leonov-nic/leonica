@@ -1,0 +1,53 @@
+#Создание нового пользователя
+
+POST http://localhost:3014/api/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email":"tk000@yandex.com",
+  "name":"Oleg",
+  "password":"123456"
+}
+
+###
+
+
+#Авторизация пользователя по email и password
+POST http://localhost:3014/api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email":"tk000@yandex.com",
+  "password":"123456"
+}
+
+###
+
+
+
+#Создание cat
+POST http://localhost:3014/api/cats HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyZjhkNDZhZDBkMGM1YTE0Y2YxNTYiLCJlbWFpbCI6InRrMDAwQHlhbmRleC5jb20iLCJuYW1lIjoiT2xlZyIsInRva2VuSWQiOiI5Y2I2NmZmOS1kMGY5LTQwZDItOGIxOC1hOGFkNmIxMzE1NjEiLCJpYXQiOjE3NTA0MTU1MTcsImV4cCI6MTc1MDQxNTg3N30.eX1ldHGIW5F_kbJoFUtLx_u9P2TNtNd9f8ggHp279Po
+Content-Type: application/json
+
+{
+  "userId": "658170cbb954e9f5b905ccf3",
+  "titleText": "Цифровизация Реальность 222",
+  "text": "по этой проблеме. втор цифровиации цифровизации цифровизации цифровизациицифровизаци ициф",
+  "likesCount":0
+}
+
+###
+
+#Получить все cats
+# GET http://localhost:3000/api/cats?limit=5&sortDirection=asc&page=1 HTTP/1.1
+
+GET http://localhost:3014/api/cats HTTP/1.1
+###
+
+
+#Получить все детали
+GET http://localhost:3014/api/details HTTP/1.1
+Content-Type: application/json
+
+###
