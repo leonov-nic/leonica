@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import dayjs from 'dayjs';
 
@@ -27,7 +27,12 @@ export class RefreshTokenService {
     return this.refreshTokenRepository.save(refreshToken);
   }
 
-  public async deleteRefreshSession(tokenId: string): Promise<void> {
+  public async deleteRefreshSession(userId: string): Promise<void> {
+    const refreshToken = await this.refreshTokenRepository.findByUserId(userId);
+    if (!refreshToken) {
+      {throw new NotFoundException(`Token with that user id ${userId} not found`);}
+    }
+    const { tokenId } = refreshToken.toPOJO();
     await this.deleteExpiredRefreshTokens();
     await this.refreshTokenRepository.deleteByTokenId(tokenId)
   }

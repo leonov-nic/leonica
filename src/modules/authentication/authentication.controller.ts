@@ -1,7 +1,7 @@
-import { Controller, Body, Query, Post, Get, Request, Put, Param, HttpStatus, UseGuards, HttpCode } from '@nestjs/common';
+import { Controller, Body, Query, Delete, Post, Get, Request, Put, Param, HttpStatus, UseGuards, HttpCode, HttpException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-import { RequestWithUser } from '../../types';
+import { RequestWithUser, TokenPayload } from '../../types';
 import { JwtRefreshGuard, JwtAuthGuard, LocalAuthGuard, MongoIdValidationPipe } from 'src/libs';
 
 import { AuthenticationService } from './authentication.service';
@@ -13,6 +13,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 @Controller('auth')
 export class AuthenticationController {
   constructor(private readonly authService: AuthenticationService) {}
+  
+  @UseGuards(JwtAuthGuard)
+  @Post('check')
+  public async checkToken(@Request() { user: payload }: RequestWithUser) {
+    return payload;
+  }
+
 
   @Post('register')
   public async create(@Body() dto: CreateUserDto) {
@@ -26,8 +33,19 @@ export class AuthenticationController {
     return { message: 'Account activated successfully' };
   }
 
-  @UseGuards(AuthGuard('local'))
+  @UseGuards(JwtAuthGuard)
+  @Delete('logout')
+  async logout(@Request() {user}) {
+    const userId = user.sub
+    if (typeof userId !== 'string') {
+      throw new HttpException('Invalid token payload: sub does not exist', HttpStatus.BAD_REQUEST);
+    }
+    await this.authService.logout(userId);
+    return { message: 'Logout successful' };
+  }
+
   @UseGuards(LocalAuthGuard)
+  @UseGuards(AuthGuard('local'))
   @Post('login')
   public async login(@Request() {user}: RequestWithUser) {
     const userToken = user && await this.authService.createUserToken(user);
@@ -53,17 +71,5 @@ export class AuthenticationController {
   @HttpCode(HttpStatus.OK)
   public async refreshToken(@Request() {user}: RequestWithUser) {
     return user && await this.authService.createUserToken(user);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Post('check')
-  public async checkToken(@Request() { user: payload }: RequestWithUser) {
-    return payload;
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('/demo/:id')
-  public async demoPipe(@Param('id') id: number) {
-    console.log(typeof id);
   }
 }

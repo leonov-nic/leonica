@@ -11,6 +11,11 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix(GLOBAL_PREFIX);
   app.useGlobalPipes(new ValidationPipe({transform: true}));
+  app.enableCors({
+    origin: ['http://localhost:5173', 'http://127.0.0.1:3014', 'http://example.com'], // Укажите здесь URL вашего клиента
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // Если вам нужно передавать куки
+  });
   const configService = app.get(NestConfigService);
   const port = configService.get(CONFIG_SERVICE);
   const host = configService.get(CONFIG_HOST);
@@ -18,4 +23,5 @@ async function bootstrap() {
   await app.listen(port ?? 3000, host);
   Logger.log(`🚀 Application is running on: http://${host}:${port}/${GLOBAL_PREFIX}`);
 }
+
 bootstrap();

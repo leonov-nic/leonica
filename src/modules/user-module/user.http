@@ -8,6 +8,13 @@ GEt http://localhost:3014/api/users/67645530e791c623065e30c1 HTTP/1.1
 
 ###
 
+
+#Проверка аутентификации
+POST http://localhost:3014/api/auth/check HTTP/1.1
+
+###
+
+
 #Создание нового пользователя
 
 POST http://localhost:3014/api/auth/register HTTP/1.1

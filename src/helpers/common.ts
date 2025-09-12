@@ -49,6 +49,7 @@ export function createJWTPayload(user: User): TokenPayload {
     sub: user._id,
     email: user.email,
     name: user.name,
+    userType: user.userType,
   };
 }
 

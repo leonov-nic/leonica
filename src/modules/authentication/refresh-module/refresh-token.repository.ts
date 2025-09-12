@@ -30,6 +30,14 @@ export class RefreshTokenRepository extends BaseMongoRefreshTokenRepository<Refr
     // return this.entityFactory.create(refreshTokenDocument);
   }
 
+  public async findByUserId(userId: string): Promise<RefreshTokenEntity | null> {
+    //@ts-ignore
+    const refreshTokenDocument = await this.model.findOne({ userId }).exec();
+    if (!refreshTokenDocument) {return null; }
+    return this.createEntityFromDocument(refreshTokenDocument);
+    // return this.entityFactory.create(refreshTokenDocument);
+  }
+
 
   public async deleteExpiredTokens(): Promise<void> {
     this.model.deleteMany({ expiresIn: { $lt: new Date()}})

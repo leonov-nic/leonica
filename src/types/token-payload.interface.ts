@@ -1,5 +1,6 @@
 export interface TokenPayload {
-  sub: unknown;
+  sub: unknown | string;
   name: string;
   email: string;
+  userType: string;
 }

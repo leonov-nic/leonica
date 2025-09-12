@@ -41,6 +41,7 @@ export class UserEntity {
 
   public toPOJO() {
     return {
+      _id: this._id,
       email: this.email,
       name: this.name,
       avatar: this.avatar,

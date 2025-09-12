@@ -1,8 +1,8 @@
 import { Expose } from 'class-transformer';
 
 export class LoggedUserRdo {
-  @Expose()
-  public _id: string;
+  // @Expose()
+  // public _id: string;
 
   @Expose()
   public email: string;
@@ -15,4 +15,7 @@ export class LoggedUserRdo {
 
   @Expose()
   public refreshToken: string;
+
+  @Expose()
+  public userType: string;
 }

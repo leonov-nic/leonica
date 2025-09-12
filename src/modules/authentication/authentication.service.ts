@@ -20,7 +20,6 @@ import crypto from 'node:crypto';
 import { NotifyService } from '../notify/notify.service';
 
 
-
 @Injectable()
 export class AuthenticationService {
   private readonly logger = new Logger(AuthenticationService.name);
@@ -31,8 +30,7 @@ export class AuthenticationService {
     private readonly notifyService: NotifyService,
     private readonly refreshTokenService: RefreshTokenService,
     @Inject(jwtConfig.KEY) private readonly jwtOptions: ConfigType<typeof jwtConfig>,
-  ) {console.log(this.jwtOptions, "from AuthenticationService", jwtConfig);}
-
+  ) {}
 
   public async register(dto: CreateUserDto): Promise<UserEntity>  {
     const { email, name, password } = dto;
@@ -68,6 +66,7 @@ export class AuthenticationService {
     user.activationToken = null;
     const userEntity = new UserEntity(user);
     await this.userRepository.update(userEntity);
+    return userEntity;
   }
 
 //   public async changePassword(dto: ChangePasswordDto) {
@@ -95,6 +94,11 @@ export class AuthenticationService {
     const existUser = await this.userRepository.findById(_id.toString());
     if (!existUser) {throw new NotFoundException(`User with id ${_id} not found`);}
     return existUser;
+  }
+
+  public async logout(userId: string) {
+    await this.refreshTokenService.deleteRefreshSession(userId);
+    return;
   }
 
   public async createUserToken(user: User): Promise<Token> {
