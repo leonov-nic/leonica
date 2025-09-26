@@ -12,7 +12,7 @@ async function bootstrap() {
   app.setGlobalPrefix(GLOBAL_PREFIX);
   app.useGlobalPipes(new ValidationPipe({transform: true}));
   app.enableCors({
-    origin: ['http://localhost:5173', 'http://127.0.0.1:3014', 'http://leonica.ru'], // Укажите здесь URL вашего клиента
+    origin: ['http://localhost:5173', 'http://127.0.0.1:3014', 'http://leonica.ru', 'https://leonica.ru'], // Укажите здесь URL вашего клиента
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // Если вам нужно передавать куки
   });
